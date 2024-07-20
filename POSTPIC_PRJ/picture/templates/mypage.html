@@ -1,0 +1,29 @@
+<!-- ベーステンプレートを適用する-->
+{% extends 'base.html' %}
+<!-- ヘッダー情報のページタイトルを設定する-->
+{% block title %}Mypage{% endblock %}
+
+      {% block contents %}
+      <!-- ユーザーの投稿件数を表示-->
+      {% if user.is_authenticated %}
+        <br>
+        <div style="text-align:center">
+          <h4>{{user.username}}さんのマイページ</h4>
+          {% if object_list.count == 0 %}
+            <!-- 投稿がない場合 -->
+            <p>{{user.username}}さんの投稿はありません</p>
+          {% else %}
+            <!-- 投稿があれば投稿件数を表示 -->
+            <p>投稿<strong>{{object_list.count}}</strong>件</p>
+          {% endif %}
+          <a href="{% url 'picture:post' %}">投稿する</a>
+        </div>
+        <hr>
+      {% endif %}
+
+      <!-- 投稿一覧テンプレートの組み込み-->
+      {% include "picture_list.html" %}
+      <!-- ページネーションの組み込み-->
+      {% include "pagination.html" %}
+
+      {% endblock %}
